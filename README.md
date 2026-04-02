@@ -19,7 +19,7 @@ All GET endpoints are publicly accessible — no auth required. Browse and test 
 
 ## Tech Stack
 
-- **Runtime** — ASP.NET Core 9, C#
+- **Runtime** — ASP.NET Core 10, C#
 - **Database** — Entity Framework Core + PostgreSQL
 - **Auth** — JWT (access token + refresh token rotation)
 - **Docs** — Scalar
