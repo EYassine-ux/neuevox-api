@@ -10,8 +10,8 @@ A RESTful API backend for **NeueVox**, a college portal inspired by Omnivox, bui
 
 | | |
 |---|---|
-| **Base URL** | `http://api.neuevox.net` |
-| **Interactive Docs** | `http://api.neuevox.net/scalar` |
+| **Base URL** | `https://api.neuevox.net` |
+| **Interactive Docs** | `https://api.neuevox.net/scalar` |
 
 All GET endpoints are publicly accessible — no auth required. Browse and test them directly in Scalar.
 
