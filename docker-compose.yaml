@@ -1,0 +1,29 @@
+﻿services:
+  neuevox-db:
+    container_name: neuevox-db
+    image: postgres:16
+    environment:
+      - POSTGRES_DB=NeueVoxDb
+      - POSTGRES_USER=NeueVox
+      - POSTGRES_PASSWORD=TeamProject123
+    ports:
+      - "5434:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  neuevox-api:
+    container_name: neuevox-api
+    build:
+      context: .
+      dockerfile: NeueVox/Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DefaultConnection=Host=neuevox-db;Port=5432;Database=NeueVoxDb;Username=NeueVox;Password=TeamProject123
+    ports:
+      - "8080:8080"
+      - "8443:8443"
+    depends_on:
+      - neuevox-db
+
+volumes:
+  postgres_data:
