@@ -1,6 +1,3 @@
-using System.Text.Json.Serialization;
-using NeueVox.Model.NeuevoxModel.enums;
-
 namespace NeueVox.Model.DTOs.ReponseDTO;
 
 public class RefreshTokenRequestDTO

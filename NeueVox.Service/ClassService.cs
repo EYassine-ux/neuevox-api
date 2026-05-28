@@ -1,89 +1,93 @@
-﻿  using NeueVox.Model.DTOs;
-  using NeueVox.Model.DTOs.ReponseDTO;
-  using NeueVox.Model.NeuevoxModel;
-  using NeueVox.Model.NeuevoxModel.Context;
-  using NeueVox.Repository;
+﻿using NeueVox.Model.DTOs;
+using NeueVox.Model.DTOs.ReponseDTO;
+using NeueVox.Model.NeuevoxModel;
+using NeueVox.Repository;
 
-  namespace NeueVox.Service;
+namespace NeueVox.Service;
 
-  public interface IClassService : IBaseService<Class>
+public interface IClassService : IBaseService<Class>
+{
+  Task<Class> AddClassAsync(AddClassDTO classDto);
+  Task<Class?> UpdateClassAsync(Guid id, AddClassDTO classDto);
+  Task<IEnumerable<ClassResponseDTO>> GetAllClassesForCourse(Guid courseId);
+
+  Task<IEnumerable<ClassResponseDTO>> GetAllClassesForStudent(Guid studentId);
+}
+
+public class ClassService : BaseService<Class>, IClassService
+{
+  private readonly IClassRepository _classRepository;
+
+  public ClassService(IClassRepository classRepository) : base(classRepository)
   {
-    Task<Class> AddClassAsync(AddClassDTO classDto);
-    Task<Class?> UpdateClassAsync(Guid id, AddClassDTO classDto);
-    Task<IEnumerable<ClassResponseDTO>> GetAllClassesForCourse(Guid courseId);
-
-    Task<IEnumerable<ClassResponseDTO>> GetAllClassesForStudent(Guid studentId);
-
-
-
+    _classRepository = classRepository;
   }
-  public class ClassService : BaseService<Class>, IClassService
+
+  public async Task<Class> AddClassAsync(AddClassDTO classDto)
   {
-    private readonly IClassRepository _classRepository;
-
-    public ClassService(IClassRepository classRepository) : base(classRepository)
+    var newClass = new Class
     {
-      _classRepository = classRepository;
-    }
-
-
-
-    public async Task<Class> AddClassAsync(AddClassDTO classDto)
-    {
-      var newClass = new Class
-      {
-        ProfessorId = classDto.ProfessorId,
-        CourseId = classDto.CourseId,
-        ClassNumber = classDto.ClassNumber,
-        Semester = classDto.Semester,
-      };
-      return await _classRepository.CreateAsync(newClass);
-    }
-
-    public async Task<Class?> UpdateClassAsync(Guid id, AddClassDTO classDto)
-    {
-      var oldClass = await _classRepository.GetByIdAsync(id);
-      if(oldClass is null) return null;
-
-      oldClass.ProfessorId = classDto.ProfessorId;
-      oldClass.CourseId = classDto.CourseId;
-      oldClass.ClassNumber = classDto.ClassNumber;
-      oldClass.Semester = classDto.Semester;
-
-      return await _classRepository.UpdateAsync(oldClass,id);
-    }
-
-
-     public async Task<IEnumerable<ClassResponseDTO>> GetAllClassesForCourse(Guid courseId)
-     {
-        var classes = await _classRepository.GetAllClassesForCourse(courseId);
-
-        var responseDto = classes.Select(c => new ClassResponseDTO
-        {
-            ClassId  =  c.ClassId,
-            ClassNumber = c.ClassNumber,
-            CourseTitle = c.Course.CourseTitle,
-            Semester =  c.Semester,
-            ProfessorName = $"{c.Professor.FirstName} {c.Professor.LastName}",
-            ProfessorOffice = c.Professor.OfficeNumber,
-
-        }).ToList();
-      return responseDto;
-     }
-
-    public async Task<IEnumerable<ClassResponseDTO>> GetAllClassesForStudent(Guid studentId)
-    {
-      var rawClasses = await _classRepository.GetAllClassesForStudent(studentId);
-
-      var classes = rawClasses.Select(c => new ClassResponseDTO
-      {
-        ClassId = c.ClassId,
-        CourseTitle = c.Course.CourseTitle,
-        ClassNumber = c.ClassNumber,
-        ProfessorName = $"{c.Professor.FirstName} {c.Professor.LastName}",
-        ProfessorOffice = c.Professor.OfficeNumber,
-        Semester = c.Semester,
-      }).ToList();
-      return classes;
-    }
+      ProfessorId = classDto.ProfessorId,
+      CourseId = classDto.CourseId,
+      ClassNumber = classDto.ClassNumber,
+      Semester = classDto.Semester,
+    };
+    return await _classRepository.CreateAsync(newClass);
   }
+
+  public async Task<Class?> UpdateClassAsync(Guid id, AddClassDTO classDto)
+  {
+    var oldClass = await _classRepository.GetByIdAsync(id);
+    if (oldClass is null) return null;
+
+    oldClass.ProfessorId = classDto.ProfessorId;
+    oldClass.CourseId = classDto.CourseId;
+    oldClass.ClassNumber = classDto.ClassNumber;
+    oldClass.Semester = classDto.Semester;
+
+    return await _classRepository.UpdateAsync(oldClass, id);
+  }
+
+  public async Task<IEnumerable<ClassResponseDTO>> GetAllClassesForCourse(Guid courseId)
+  {
+    var classes = await _classRepository.GetAllClassesForCourse(courseId);
+
+    var responseDto = classes.Select(c => new ClassResponseDTO
+    {
+      ClassId = c.ClassId,
+      ClassNumber = c.ClassNumber,
+      CourseTitle = c.Course.CourseTitle,
+      Semester = c.Semester,
+      ProfessorName = $"{c.Professor.FirstName} {c.Professor.LastName}",
+      ProfessorOffice = c.Professor.OfficeNumber,
+
+    }).ToList();
+    return responseDto;
+  }
+
+  public async Task<IEnumerable<ClassResponseDTO>> GetAllClassesForStudent(Guid studentId)
+  {
+    var rawClasses = await _classRepository.GetAllClassesForStudent(studentId);
+
+    var classes = rawClasses.Select(c => new ClassResponseDTO
+    {
+      ClassId = c.ClassId,
+      CourseTitle = c.Course.CourseTitle,
+      ClassNumber = c.ClassNumber,
+      ProfessorName = $"{c.Professor.FirstName} {c.Professor.LastName}",
+      ProfessorOffice = c.Professor.OfficeNumber,
+      Semester = c.Semester,
+
+      Schedules = c.Schedules.Select(s => new ScheduleDetailDTO
+      {
+        TimeRange = $"{s.StartTime:HH:mm}-{s.EndTime:HH:mm}",
+        Room = s.RoomNumber,
+        DayOfWeek = s.DayOfWeek
+      }).ToList()
+
+    }).ToList();
+
+    return classes;
+  }
+  }
+

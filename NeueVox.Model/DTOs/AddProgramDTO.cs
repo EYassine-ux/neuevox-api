@@ -1,7 +1,7 @@
-﻿namespace NeueVox.Model.DTOs;
+namespace NeueVox.Model.DTOs;
 
 public class AddProgramDTO
 {
-  public string ProgramName {get; set;}
-  public int ProgramCode {get; set;}
+  public string ProgramName { get; set; }
+  public int ProgramCode { get; set; }
 }

@@ -1,4 +1,4 @@
-﻿using NeueVox.Model.DTOs;
+using NeueVox.Model.DTOs;
 using NeueVox.Model.NeuevoxModel;
 using NeueVox.Repository;
 
@@ -10,7 +10,7 @@ public interface IStudentClassService : IBaseService<StudentClass>
   Task<StudentClass?> UpdateStudentClass(AddStudentClassDTO studentClass, Guid id);
 }
 
-public class StudentClassService : BaseService<StudentClass>,IStudentClassService
+public class StudentClassService : BaseService<StudentClass>, IStudentClassService
 {
   private readonly IStudentClassRepository _studentClassRepository;
 
@@ -18,7 +18,6 @@ public class StudentClassService : BaseService<StudentClass>,IStudentClassServic
   {
     _studentClassRepository = studentClassRepository;
   }
-
 
   public async Task<StudentClass> AddStudentClass(AddStudentClassDTO studentClass)
   {
@@ -42,7 +41,6 @@ public class StudentClassService : BaseService<StudentClass>,IStudentClassServic
     oldStudentClass.FinalGrade = studentClass.FinalGrade;
     oldStudentClass.ClassStatus = studentClass.ClassStatus;
 
-    return await _studentClassRepository.UpdateAsync(oldStudentClass,id);
-
+    return await _studentClassRepository.UpdateAsync(oldStudentClass, id);
   }
 }

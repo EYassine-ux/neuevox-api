@@ -1,4 +1,4 @@
-﻿using NeueVox.Model.NeuevoxModel.enums;
+using NeueVox.Model.NeuevoxModel.enums;
 
 namespace NeueVox.Model.DTOs;
 

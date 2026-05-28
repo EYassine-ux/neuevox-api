@@ -1,0 +1,131 @@
+version=1
+
+# This file caches language service data to improve the performance of C# Dev Kit.
+# It is not intended for manual editing. It can safely be deleted and will be
+# regenerated automatically. For more information, see https://aka.ms/lscache
+#
+# To control where cache files are stored, use the following VS Code setting:
+#   "dotnet.projectsystem.cacheInProjectFolder": true
+
+[project]
+language=C#
+primary
+lastDtbSucceeded
+
+[properties]
+AssemblyName=NeueVox
+CommandLineArgsForDesignTimeEvaluation=-langversion:13.0 -define:TRACE
+CompilerGeneratedFilesOutputPath=
+MaxSupportedLangVersion=13.0
+ProjectAssetsFile=<PATH>obj/project.assets.json
+RootNamespace=NeueVox
+RunAnalyzers=
+RunAnalyzersDuringLiveAnalysis=
+SolutionPath=*Undefined*
+TargetFrameworkIdentifier=.NETCoreApp
+TargetPath=<PATH>bin/Debug/net10.0/NeueVox.dll
+TargetRefPath=<PATH>obj/Debug/net10.0/ref/NeueVox.dll
+TemporaryDependencyNodeTargetIdentifier=net10.0
+
+[commandLineArguments]
+/noconfig
+/unsafe-
+/checked-
+/nowarn:1701,1702,1701,1702
+/fullpaths
+/nostdlib+
+/errorreport:prompt
+/warn:1
+/define:TRACE;DEBUG;NET;NET10_0;NETCOREAPP;NET5_0_OR_GREATER;NET6_0_OR_GREATER;NET7_0_OR_GREATER;NET8_0_OR_GREATER;NET9_0_OR_GREATER;NETCOREAPP1_0_OR_GREATER;NETCOREAPP1_1_OR_GREATER;NETCOREAPP2_0_OR_GREATER;NETCOREAPP2_1_OR_GREATER;NETCOREAPP2_2_OR_GREATER;NETCOREAPP3_0_OR_GREATER;NETCOREAPP3_1_OR_GREATER
+/highentropyva+
+/nullable:enable
+/features:"InterceptorsNamespaces=;Microsoft.AspNetCore.OpenApi.Generated"
+/debug+
+/debug:portable
+/filealign:512
+/optimize-
+/out:obj\Debug\net10.0\NeueVox.dll
+/refout:obj\Debug\net10.0\refint\NeueVox.dll
+/target:exe
+/warnaserror-
+/utf8output
+/deterministic+
+/langversion:13.0
+/warnaserror+:NU1605,SYSLIB0011
+
+[sourceFiles]
+Controllers/
+ AnnouncementController.cs
+ AuthController.cs
+ ClassController.cs
+ CourseController.cs
+ DocumentController.cs
+ EvaluationController.cs
+ GradeController.cs
+ ProfessorController.cs
+ ProgramController.cs
+ QuoteController.cs
+ ScheduleController.cs
+ StudentClassController.cs
+ StudentController.cs
+ StudentSubmissionController.cs
+ UserController.cs
+obj/Debug/net10.0/
+ .NETCoreApp,Version=v10.0.AssemblyAttributes.cs
+ NeueVox.AssemblyInfo.cs
+ NeueVox.GlobalUsings.g.cs
+Program.cs
+
+[metadataReferences]
+../
+ NeueVox.Model/obj/Debug/net10.0/ref/NeueVox.Model.dll
+ NeueVox.Repository/obj/Debug/net10.0/ref/NeueVox.Repository.dll
+ NeueVox.Service/obj/Debug/net10.0/ref/NeueVox.Service.dll
+<NUGET>/
+ dnsclient/1.6.1/lib/net5.0/DnsClient.dll
+ microsoft.aspnetcore.authentication.jwtbearer/10.0.5/lib/net10.0/Microsoft.AspNetCore.Authentication.JwtBearer.dll
+ microsoft.aspnetcore.openapi/10.0.2/lib/net10.0/Microsoft.AspNetCore.OpenApi.dll
+ microsoft.entityframeworkcore.abstractions/10.0.2/lib/net10.0/Microsoft.EntityFrameworkCore.Abstractions.dll
+ microsoft.entityframeworkcore.relational/10.0.0/lib/net10.0/Microsoft.EntityFrameworkCore.Relational.dll
+ microsoft.entityframeworkcore/10.0.2/lib/net10.0/Microsoft.EntityFrameworkCore.dll
+ microsoft.identitymodel.abstractions/8.16.0/lib/net10.0/Microsoft.IdentityModel.Abstractions.dll
+ microsoft.identitymodel.jsonwebtokens/8.16.0/lib/net10.0/Microsoft.IdentityModel.JsonWebTokens.dll
+ microsoft.identitymodel.logging/8.16.0/lib/net10.0/Microsoft.IdentityModel.Logging.dll
+ microsoft.identitymodel.protocols.openidconnect/8.0.1/lib/net9.0/Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+ microsoft.identitymodel.protocols/8.0.1/lib/net9.0/Microsoft.IdentityModel.Protocols.dll
+ microsoft.identitymodel.tokens/8.16.0/lib/net10.0/Microsoft.IdentityModel.Tokens.dll
+ microsoft.openapi/2.0.0/lib/net8.0/Microsoft.OpenApi.dll
+ mongodb.bson/3.7.1/lib/net6.0/MongoDB.Bson.dll
+ mongodb.driver/3.7.1/lib/net6.0/MongoDB.Driver.dll
+ mongodb.entityframeworkcore/10.0.1/lib/net10.0/MongoDB.EntityFrameworkCore.dll
+ npgsql.entityframeworkcore.postgresql/10.0.0/lib/net10.0/Npgsql.EntityFrameworkCore.PostgreSQL.dll
+ npgsql/10.0.0/lib/net10.0/Npgsql.dll
+ scalar.aspnetcore/2.12.44/lib/net10.0/Scalar.AspNetCore.dll
+ sharpcompress/0.30.1/lib/net5.0/SharpCompress.dll
+ snappier/1.0.0/lib/net5.0/Snappier.dll
+ system.identitymodel.tokens.jwt/8.16.0/lib/net10.0/System.IdentityModel.Tokens.Jwt.dll
+ zstdsharp.port/0.7.3/lib/net7.0/ZstdSharp.dll
+
+[analyzerReferences]
+<DOTNET>/sdk/9.0.304/Sdks/Microsoft.NET.Sdk.Razor/source-generators/
+ Microsoft.AspNetCore.Razor.Utilities.Shared.dll
+ Microsoft.CodeAnalysis.Razor.Compiler.dll
+ Microsoft.Extensions.ObjectPool.dll
+ System.Collections.Immutable.dll
+<DOTNET>/sdk/9.0.304/Sdks/Microsoft.NET.Sdk.Web/analyzers/cs/
+ Microsoft.AspNetCore.Analyzers.dll
+ Microsoft.AspNetCore.Mvc.Analyzers.dll
+<DOTNET>/sdk/9.0.304/Sdks/Microsoft.NET.Sdk/analyzers/
+ Microsoft.CodeAnalysis.CSharp.NetAnalyzers.dll
+ Microsoft.CodeAnalysis.NetAnalyzers.dll
+<NUGET>/
+ microsoft.aspnetcore.openapi/10.0.2/analyzers/dotnet/cs/Microsoft.AspNetCore.OpenApi.SourceGenerators.dll
+ microsoft.codeanalysis.analyzers/3.11.0/analyzers/dotnet/cs/
+  Microsoft.CodeAnalysis.Analyzers.dll
+  Microsoft.CodeAnalysis.CSharp.Analyzers.dll
+ microsoft.entityframeworkcore.analyzers/10.0.2/analyzers/dotnet/cs/Microsoft.EntityFrameworkCore.Analyzers.dll
+
+[analyzerConfigFiles]
+../../../../.editorconfig
+<DOTNET>/sdk/9.0.304/Sdks/Microsoft.NET.Sdk/codestyle/cs/build/config/analysislevelstyle_default.globalconfig
+obj/Debug/net10.0/NeueVox.GeneratedMSBuildEditorConfig.editorconfig

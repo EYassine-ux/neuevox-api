@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using NeueVox.Model.DTOs;
 using NeueVox.Model.DTOs.ReponseDTO;
@@ -12,19 +12,20 @@ public class CourseController : ControllerBase
 {
   private readonly ICourseService _courseService;
   private readonly IClassService _classService;
-  public CourseController(ICourseService courseService,IClassService classService)
+
+  public CourseController(ICourseService courseService, IClassService classService)
   {
     _courseService = courseService;
     _classService = classService;
   }
 
-  [HttpGet]
+  [HttpGet(Name = "GetAllCourses")]
   public async Task<IActionResult> GetAllCourses()
   {
     var courses = await _courseService.GetAllAsync();
     return Ok(courses);
   }
-  [Authorize(Roles = "ADMIN")]
+
   [HttpPost]
   public async Task<IActionResult> AddCourse([FromBody] AddCourseDTO courseDto)
   {
@@ -32,10 +33,10 @@ public class CourseController : ControllerBase
     return Ok(course);
   }
 
-  [HttpGet("{courseId:guid}/classes")]
+  [HttpGet("{courseId:guid}/classes", Name = "GetClassesByCourse")]
   public async Task<ActionResult<List<ClassResponseDTO>>> GetClassesByCourseIdAsync([FromRoute] Guid courseId)
   {
-      var classes = await _classService.GetAllClassesForCourse(courseId);
-      return Ok(classes);
+    var classes = await _classService.GetAllClassesForCourse(courseId);
+    return Ok(classes);
   }
 }

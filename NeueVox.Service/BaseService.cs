@@ -1,4 +1,4 @@
-﻿using NeueVox.Repository;
+using NeueVox.Repository;
 
 namespace NeueVox.Service;
 
@@ -16,11 +16,11 @@ public class BaseService<T> : IBaseService<T> where T : class
   protected readonly IBaseRepository<T> Repository;
   public BaseService(IBaseRepository<T> repository)
   {
-    Repository =  repository;
+    Repository = repository;
   }
   public async Task<IEnumerable<T>> GetAllAsync()
   {
-    return await  Repository.GetAllAsync();
+    return await Repository.GetAllAsync();
   }
 
   public async Task<T?> GetByIdAsync(Guid id)
@@ -43,4 +43,3 @@ public class BaseService<T> : IBaseService<T> where T : class
     return await Repository.DeleteAsync(id);
   }
 }
-

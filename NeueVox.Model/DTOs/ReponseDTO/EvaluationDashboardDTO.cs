@@ -1,11 +1,10 @@
-﻿using System.Text.Json.Serialization;
+using System.Text.Json.Serialization;
 using NeueVox.Model.NeuevoxModel.enums;
 
 namespace NeueVox.Model.DTOs.ReponseDTO;
 
 public class EvaluationDashboardDTO
 {
-
   public Guid EvaluationId { get; set; }
   public required string Title { get; set; }
   public required string CourseName { get; set; }
@@ -15,5 +14,4 @@ public class EvaluationDashboardDTO
 
   public decimal Weight { get; set; }
   public DateTime DueDate { get; set; }
-
 }

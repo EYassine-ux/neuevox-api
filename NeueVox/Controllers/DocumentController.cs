@@ -5,20 +5,21 @@ using NeueVox.Model.DTOs.ReponseDTO;
 using NeueVox.Service;
 
 namespace NeueVox.Controllers;
+
 [Route("api/[controller]")]
 [ApiController]
 public class DocumentController(IDocumentService documentService) : ControllerBase
 {
   private readonly IDocumentService _documentService = documentService;
 
-  [HttpGet]
+  [HttpGet(Name = "GetAllDocuments")]
   public async Task<ActionResult<List<DocumentResponseDTO>>> GetAllDocuments()
   {
     var documents = await _documentService.GetAllDocuments();
     return Ok(documents);
   }
 
-  [HttpGet("{id:guid}")]
+  [HttpGet("{id:guid}", Name = "GetDocumentById")]
   public async Task<ActionResult<DocumentResponseDTO>> GetDocument(Guid id)
   {
     var document = await _documentService.GetDocumentById(id);
@@ -29,7 +30,6 @@ public class DocumentController(IDocumentService documentService) : ControllerBa
     return Ok(document);
   }
 
-  [Authorize(Roles = "ADMIN,PROFESSOR")]
   [HttpPost]
   public async Task<IActionResult> CreateDocument([FromBody] AddDocumentDTO documentDTO)
   {
@@ -41,16 +41,14 @@ public class DocumentController(IDocumentService documentService) : ControllerBa
     return CreatedAtAction(nameof(CreateDocument), document);
   }
 
-  [Authorize(Roles = "ADMIN,PROFESSOR")]
   [HttpPut("{id:guid}")]
   public async Task<IActionResult> UpdateDocument([FromBody] AddDocumentDTO documentDTO, Guid id)
   {
     var document = await _documentService.UpdateDocument(documentDTO, id);
-    if(document == null) return NotFound();
+    if (document == null) return NotFound();
     return NoContent();
   }
 
-  [Authorize(Roles = "ADMIN,PROFESSOR")]
   [HttpDelete("{id:guid}")]
   public async Task<IActionResult> DeleteDocument(Guid id)
   {
@@ -58,4 +56,6 @@ public class DocumentController(IDocumentService documentService) : ControllerBa
     if (deleted) return NoContent();
     return NotFound();
   }
+
+
 }

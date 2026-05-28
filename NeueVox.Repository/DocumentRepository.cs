@@ -1,19 +1,17 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using NeueVox.Model.NeuevoxModel;
 using NeueVox.Model.NeuevoxModel.Context;
 
 namespace NeueVox.Repository;
-
 
 public interface IDocumentRepository : IBaseRepository<Document>
 {
   Task<IEnumerable<Document>> GetAllDocumentsForClass(Guid classId);
 }
 
-public class DocumentRepository : BaseRepository<Document>,IDocumentRepository
+public class DocumentRepository : BaseRepository<Document>, IDocumentRepository
 {
-
-  public  DocumentRepository(NeueVoxContext dbContext) : base(dbContext)
+  public DocumentRepository(NeueVoxContext dbContext) : base(dbContext)
   {
   }
 
@@ -27,5 +25,4 @@ public class DocumentRepository : BaseRepository<Document>,IDocumentRepository
       .ToListAsync();
     return documents;
   }
-
 }

@@ -1,4 +1,4 @@
-﻿using NeueVox.Model.DTOs;
+using NeueVox.Model.DTOs;
 using NeueVox.Model.DTOs.ReponseDTO;
 using NeueVox.Model.NeuevoxModel;
 using NeueVox.Repository;
@@ -7,7 +7,7 @@ namespace NeueVox.Service;
 
 public interface IEvaluationService : IBaseService<Evaluation>
 {
-  Task<IEnumerable<Evaluation>> GetClassEvaluationsForStudentAsync(Guid classId,Guid studentId);
+  Task<IEnumerable<Evaluation>> GetClassEvaluationsForStudentAsync(Guid classId, Guid studentId);
   Task<IEnumerable<EvaluationDashboardDTO>> GetAllEvaluationsForStudentAsync(Guid studentId);
   Task<EvaluationDetailResponseDTO?> GetEvaluationDetailAsync(Guid evaluationId);
 
@@ -15,7 +15,7 @@ public interface IEvaluationService : IBaseService<Evaluation>
   Task<Evaluation?> UpdateEvaluationAsync(AddEvaluationDTO evaluation, Guid id);
 }
 
-public class EvaluationService : BaseService<Evaluation>,IEvaluationService
+public class EvaluationService : BaseService<Evaluation>, IEvaluationService
 {
   private readonly IEvaluationRepository _evaluationRepository;
 
@@ -37,7 +37,7 @@ public class EvaluationService : BaseService<Evaluation>,IEvaluationService
       EvaluationId = e.EvaluationId,
       Title = e.EvaluationTitle,
       CourseName = e.Class?.Course?.CourseTitle ?? "Inconnu",
-      EvaluationType =  e.EvaluationType,
+      EvaluationType = e.EvaluationType,
       Weight = e.Weight,
       DueDate = e.DueDate,
     }).ToList();
@@ -64,8 +64,6 @@ public class EvaluationService : BaseService<Evaluation>,IEvaluationService
       StartTime = raw.StartDate?.ToString("HH:mm"),
       EndTime = raw.EndDate?.ToString("HH:mm")
     };
-
-
   }
 
   public async Task<Evaluation> AddEvaluationAsync(AddEvaluationDTO evaluation)
@@ -74,8 +72,11 @@ public class EvaluationService : BaseService<Evaluation>,IEvaluationService
     {
       ClassId = evaluation.ClassId,
       EvaluationTitle = evaluation.EvaluationTitle,
+      StartDate =  evaluation.StartDate,
+      EndDate =  evaluation.EndDate,
       Weight = evaluation.Weight,
       EvaluationType = evaluation.EvaluationType,
+      Description =  evaluation.Description,
       MaxScore = evaluation.MaxScore,
       DueDate = evaluation.DueDate
     };
@@ -90,11 +91,13 @@ public class EvaluationService : BaseService<Evaluation>,IEvaluationService
     oldEvaluation.ClassId = evaluation.ClassId;
     oldEvaluation.EvaluationTitle = evaluation.EvaluationTitle;
     oldEvaluation.EvaluationType = evaluation.EvaluationType;
+    oldEvaluation.StartDate = evaluation.StartDate;
+    oldEvaluation.EndDate = evaluation.EndDate;
+    oldEvaluation.Description = evaluation.Description;
     oldEvaluation.Weight = evaluation.Weight;
     oldEvaluation.MaxScore = evaluation.MaxScore;
     oldEvaluation.DueDate = evaluation.DueDate;
 
-    return await _evaluationRepository.UpdateAsync(oldEvaluation,id);
+    return await _evaluationRepository.UpdateAsync(oldEvaluation, id);
   }
-
 }

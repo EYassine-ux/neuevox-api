@@ -1,4 +1,4 @@
-﻿using NeueVox.Model.NeuevoxModel.enums;
+using NeueVox.Model.NeuevoxModel.enums;
 
 namespace NeueVox.Model.DTOs;
 
@@ -6,9 +6,11 @@ public class AddEvaluationDTO
 {
 
   public Guid ClassId { get; set; }
-  public string EvaluationTitle  { get; set; }
+  public string EvaluationTitle { get; set; }
   public EvaluationType EvaluationType { get; set; }
-
+  public string? Description { get; set; }
+  public DateTime? StartDate { get; set; }
+  public DateTime? EndDate { get; set; }
   public decimal Weight { get; set; }
   public decimal MaxScore { get; set; }
   public DateTime DueDate { get; set; }

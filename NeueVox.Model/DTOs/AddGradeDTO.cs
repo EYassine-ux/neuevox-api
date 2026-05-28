@@ -1,4 +1,4 @@
-﻿namespace NeueVox.Model.DTOs;
+namespace NeueVox.Model.DTOs;
 
 public class AddGradeDTO
 {

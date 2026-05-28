@@ -10,6 +10,11 @@
       - "5434:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U NeueVox -d NeueVoxDb"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
 
   neuevox-api:
     container_name: neuevox-api
@@ -23,7 +28,34 @@
       - "8080:8080"
       - "8443:8443"
     depends_on:
+      neuevox-db:
+        condition: service_healthy
+
+  db-seeder:
+    container_name: db-seeder
+    image: postgres:16
+    depends_on:
+      - neuevox-api
+    volumes:
+      - ./init-script/DataNeuevox.sql:/DataNeuevox.sql
+    environment:
+      - PGPASSWORD=TeamProject123
+    command: >
+      bash -c "sleep 15 && psql -h neuevox-db -U NeueVox -d NeueVoxDb -f /DataNeuevox.sql"
+
+  pgadmin:
+    container_name: neuevox-pgadmin
+    image: dpage/pgadmin4
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=admin@neuevox.net
+      - PGADMIN_DEFAULT_PASSWORD=admin
+      - PGADMIN_SERVER_JSON_FILE=/pgadmin4/servers.json
+    ports:
+      - "5050:80"
+    depends_on:
       - neuevox-db
+    volumes:
+      - ./init-script/servers.json:/pgadmin4/servers.json
 
 volumes:
   postgres_data:

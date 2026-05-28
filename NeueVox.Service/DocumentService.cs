@@ -1,11 +1,9 @@
-﻿
 using NeueVox.Model.DTOs;
 using NeueVox.Model.DTOs.ReponseDTO;
 using NeueVox.Model.NeuevoxModel;
 using NeueVox.Repository;
 
 namespace NeueVox.Service;
-
 
 public interface IDocumentService : IBaseService<Document>
 {
@@ -32,7 +30,7 @@ public class DocumentService : BaseService<Document>, IDocumentService
     var documents = rawDocuments.Select(d => new DocumentResponseDTO
     {
       DocumentId = d.DocumentId,
-      FileName =  d.FileName,
+      FileName = d.FileName,
       FileUrl = d.FileUrl,
       FileType = d.FileType,
     }).ToList();
@@ -44,14 +42,13 @@ public class DocumentService : BaseService<Document>, IDocumentService
   {
     var rawDocuments = await _documentRepository.GetAllAsync();
 
-
     var documents = rawDocuments.Select(MapToResponseDTO).ToList();
     return documents;
   }
 
   public async Task<DocumentResponseDTO?> GetDocumentById(Guid documentId)
   {
-    var rawDocument =  await _documentRepository.GetByIdAsync(documentId);
+    var rawDocument = await _documentRepository.GetByIdAsync(documentId);
 
     if (rawDocument == null)
     {
@@ -66,7 +63,7 @@ public class DocumentService : BaseService<Document>, IDocumentService
   public async Task<DocumentResponseDTO?> AddDocument(AddDocumentDTO addDocumentDTO)
   {
     bool isExisting = await _documentRepository.ExistsAsync(d => d.ClassId == addDocumentDTO.ClassId && d.FileName == addDocumentDTO.FileName);
-    if(isExisting) return null;
+    if (isExisting) return null;
 
     var document = new Document
     {
@@ -82,13 +79,13 @@ public class DocumentService : BaseService<Document>, IDocumentService
     return MapToResponseDTO(created);
   }
 
-
   public async Task<DocumentResponseDTO?> UpdateDocument(AddDocumentDTO addDocumentDTO, Guid documentId)
   {
     var document = await _documentRepository.GetByIdAsync(documentId);
     if (document == null) return null;
 
     document.ClassId = addDocumentDTO.ClassId;
+    document.Section = addDocumentDTO.Section;
     document.FileName = addDocumentDTO.FileName;
     document.FileUrl = addDocumentDTO.FileUrl;
     document.FileType = addDocumentDTO.FileType;
@@ -98,13 +95,13 @@ public class DocumentService : BaseService<Document>, IDocumentService
     return updated == null ? null : MapToResponseDTO(updated);
   }
 
-
   private DocumentResponseDTO MapToResponseDTO(Document d)
   {
     return new DocumentResponseDTO
     {
       DocumentId = d.DocumentId,
       ClassId =  d.ClassId,
+      Section = d.Section,
       FileName =  d.FileName,
       FileUrl = d.FileUrl,
       FileType = d.FileType,

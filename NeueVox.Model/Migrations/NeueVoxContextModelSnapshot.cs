@@ -90,6 +90,9 @@ namespace NeueVox.Model.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<string>("Section")
+                        .HasColumnType("text");
+
                     b.HasKey("DocumentId");
 
                     b.HasIndex("ClassId");
@@ -179,6 +182,36 @@ namespace NeueVox.Model.Migrations
                     b.HasKey("ProgramId");
 
                     b.ToTable("Programs");
+                });
+
+            modelBuilder.Entity("NeueVox.Model.NeuevoxModel.Schedule", b =>
+                {
+                    b.Property<Guid>("ScheduleId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("ClassId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("DayOfWeek")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<TimeOnly>("EndTime")
+                        .HasColumnType("time without time zone");
+
+                    b.Property<string>("RoomNumber")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<TimeOnly>("StartTime")
+                        .HasColumnType("time without time zone");
+
+                    b.HasKey("ScheduleId");
+
+                    b.HasIndex("ClassId");
+
+                    b.ToTable("Schedules");
                 });
 
             modelBuilder.Entity("NeueVox.Model.NeuevoxModel.StudentClass", b =>
@@ -382,6 +415,17 @@ namespace NeueVox.Model.Migrations
                     b.Navigation("Student");
                 });
 
+            modelBuilder.Entity("NeueVox.Model.NeuevoxModel.Schedule", b =>
+                {
+                    b.HasOne("NeueVox.Model.NeuevoxModel.Class", "Class")
+                        .WithMany("Schedules")
+                        .HasForeignKey("ClassId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Class");
+                });
+
             modelBuilder.Entity("NeueVox.Model.NeuevoxModel.StudentClass", b =>
                 {
                     b.HasOne("NeueVox.Model.NeuevoxModel.Class", "Class")
@@ -449,6 +493,8 @@ namespace NeueVox.Model.Migrations
                     b.Navigation("Documents");
 
                     b.Navigation("Evaluations");
+
+                    b.Navigation("Schedules");
 
                     b.Navigation("StudentClasses");
                 });

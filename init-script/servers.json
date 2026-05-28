@@ -1,0 +1,15 @@
+{
+  "Servers": {
+    "1": {
+      "Name": "NeueVox",
+      "Group": "Servers",
+      "Host": "neuevox-db",
+      "Port": 5432,
+      "MaintenanceDB": "NeueVoxDb",
+      "Username": "NeueVox",
+      "Password": "TeamProject123",
+      "SSLMode": "prefer",
+      "SavePassword": true
+    }
+  }
+}

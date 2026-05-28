@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using NeueVox.Model.DTOs;
 using NeueVox.Model.DTOs.ReponseDTO;
@@ -13,26 +13,35 @@ namespace NeueVox.Controllers;
 public class ProfessorController : ControllerBase
 {
   private readonly IProfessorService _professorService;
-
-  public ProfessorController(IProfessorService professorService)
+  private readonly IScheduleService _scheduleService;
+  public ProfessorController(IProfessorService professorService,IScheduleService scheduleService)
   {
     _professorService = professorService;
+    _scheduleService = scheduleService;
   }
 
-  [HttpGet]
+  [HttpGet(Name = "GetAllProfessors")]
   public async Task<IActionResult> GetProfessors()
   {
     var professors = await _professorService.GetAllProfessors();
     return Ok(professors);
   }
 
-  [HttpGet("{professorId:guid}")]
+  [HttpGet("{professorId:guid}/schedules", Name = "GetSchedulesForProfessor")]
+  public async Task<ActionResult<List<ScheduleResponseDTO>>> GetAllSchedulesForStudent(Guid professorId)
+  {
+    var schedules = await _scheduleService.GetScheduleForProfessor(professorId);
+
+    return Ok(schedules);
+  }
+
+
+  [HttpGet("{professorId:guid}", Name = "GetProfessorById")]
   public async Task<ActionResult<ProfessorResponseDTO>> GetProfessorById([FromRoute] Guid professorId)
   {
     var professor = await _professorService.GetProfessorById(professorId);
     return Ok(professor);
   }
-  [Authorize(Roles = "ADMIN")]
   [HttpDelete("{professorId:guid}")]
   public async Task<IActionResult> DeleteProfessor([FromRoute] Guid professorId)
   {
@@ -41,7 +50,7 @@ public class ProfessorController : ControllerBase
     return Ok(professor);
   }
 
-  [Authorize(Roles = "ADMIN")]
+
   [HttpPost]
   public async Task<IActionResult> AddProfessor([FromBody] AddProfessorDTO professordto)
   {
@@ -50,7 +59,7 @@ public class ProfessorController : ControllerBase
     if(professor == null) return BadRequest(professordto);
     return Ok(professordto);
   }
-  [Authorize(Roles = "ADMIN")]
+
   [HttpPut("{professorId:guid}")]
   public async Task<IActionResult> UpdateProfessor([FromBody] AddProfessorDTO professordto, Guid professorId)
   {
@@ -60,7 +69,7 @@ public class ProfessorController : ControllerBase
     return Ok(updatedProfessor);
   }
 
-  [HttpGet("depart/search")]
+  [HttpGet("depart/search", Name = "GetProfessorsByDepartment")]
   public async Task<ActionResult<List<ProfessorResponseDTO>>> GetByDepartment([FromQuery] string depart)
   {
     if (string.IsNullOrWhiteSpace(depart))

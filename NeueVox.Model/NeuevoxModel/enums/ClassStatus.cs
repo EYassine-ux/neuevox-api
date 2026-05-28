@@ -1,11 +1,11 @@
-﻿using System.Text.Json.Serialization;
+using System.Text.Json.Serialization;
 
 namespace NeueVox.Model.NeuevoxModel.enums;
 
 [JsonConverter(typeof(JsonStringEnumConverter))]
 public enum ClassStatus
 {
-    NOT_STARTED,
-    STARTED,
-    FINISHED
+  NOT_STARTED,
+  STARTED,
+  FINISHED
 }

@@ -9,16 +9,16 @@ public interface IStudentSubmissionService : IBaseService<StudentSubmission>
 {
   Task<IEnumerable<StudentSubmissionResponse>?> GetAllSubmissionsForStudent(Guid studentId);
   Task<IEnumerable<StudentSubmissionResponse>> GetAllSubmissions();
-  Task<StudentSubmissionResponse> GetSubmission(Guid submissionId);
-  Task<StudentSubmissionResponse> AddSubmission(AddStudentSubmission addStudentSubmissionDTO);
+  Task<StudentSubmissionResponse?> GetSubmission(Guid submissionId);
+  Task<StudentSubmissionResponse?> AddSubmission(AddStudentSubmission addStudentSubmissionDTO);
   Task<StudentSubmissionResponse?> UpdateSubmission(AddStudentSubmission addStudentSubmissionDTO, Guid submissionId);
 }
 
-public class StudentSubmissionService : BaseService<StudentSubmission>,IStudentSubmissionService
+public class StudentSubmissionService : BaseService<StudentSubmission>, IStudentSubmissionService
 {
   private readonly IStudentSubmissionRepository _studentSubmissionRepository;
   private readonly IEvaluationRepository _evaluationRepository;
-  public StudentSubmissionService(IStudentSubmissionRepository repository,IEvaluationRepository evaluationRepository) : base(repository)
+  public StudentSubmissionService(IStudentSubmissionRepository repository, IEvaluationRepository evaluationRepository) : base(repository)
   {
     _studentSubmissionRepository = repository;
     _evaluationRepository = evaluationRepository;
@@ -32,19 +32,17 @@ public class StudentSubmissionService : BaseService<StudentSubmission>,IStudentS
 
     var response = submission?.Select(MapToResponse).ToList();
 
-    return  response;
+    return response;
   }
 
   public async Task<IEnumerable<StudentSubmissionResponse>> GetAllSubmissions()
   {
     var rawSubmissions = await _studentSubmissionRepository.GetAllAsync();
-    if (rawSubmissions == null) return null;
     var response = rawSubmissions.Select(MapToResponse).ToList();
     return response;
-
   }
 
-  public async Task<StudentSubmissionResponse> GetSubmission(Guid submissionId)
+  public async Task<StudentSubmissionResponse?> GetSubmission(Guid submissionId)
   {
     var rawSubmission = await _studentSubmissionRepository.GetByIdAsync(submissionId);
     if (rawSubmission == null) return null;
@@ -53,7 +51,7 @@ public class StudentSubmissionService : BaseService<StudentSubmission>,IStudentS
     return response;
   }
 
-  public async Task<StudentSubmissionResponse> AddSubmission(AddStudentSubmission addStudentSubmissionDTO)
+  public async Task<StudentSubmissionResponse?> AddSubmission(AddStudentSubmission addStudentSubmissionDTO)
   {
     var evalution = await _evaluationRepository.GetByIdAsync(addStudentSubmissionDTO.EvaluationId);
 
@@ -77,7 +75,6 @@ public class StudentSubmissionService : BaseService<StudentSubmission>,IStudentS
     var createdSubmission = await _studentSubmissionRepository.CreateAsync(newSubmission);
 
     return MapToResponse(createdSubmission);
-
   }
 
   public async Task<StudentSubmissionResponse?> UpdateSubmission(AddStudentSubmission addStudentSubmissionDTO,
@@ -94,10 +91,7 @@ public class StudentSubmissionService : BaseService<StudentSubmission>,IStudentS
     var updatedSubmission = await _studentSubmissionRepository.UpdateAsync(existingSubmission, submissionId);
 
     return updatedSubmission == null ? null : MapToResponse(updatedSubmission);
-
   }
-
-
 
   private StudentSubmissionResponse MapToResponse(StudentSubmission ss)
   {
@@ -110,6 +104,4 @@ public class StudentSubmissionService : BaseService<StudentSubmission>,IStudentS
       FileUrl = ss.FileUrl
     };
   }
-
-
 }

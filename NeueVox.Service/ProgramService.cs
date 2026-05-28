@@ -1,4 +1,4 @@
-﻿using NeueVox.Model.DTOs;
+using NeueVox.Model.DTOs;
 using NeueVox.Model.NeuevoxModel;
 using NeueVox.Repository;
 
@@ -9,7 +9,7 @@ public interface IProgramService : IBaseService<Program>
   Task<Program> AddProgramAsync(AddProgramDTO program);
   Task<Program?> UpdateProgramAsync(AddProgramDTO program, Guid id);
 }
-public class ProgramService : BaseService<Program>,IProgramService
+public class ProgramService : BaseService<Program>, IProgramService
 {
   private readonly IProgramRepository _programRepository;
 
@@ -36,6 +36,6 @@ public class ProgramService : BaseService<Program>,IProgramService
     oldProgram.ProgramName = program.ProgramName;
     oldProgram.ProgramCode = program.ProgramCode;
 
-    return await _programRepository.UpdateAsync(oldProgram,id);
+    return await _programRepository.UpdateAsync(oldProgram, id);
   }
 }

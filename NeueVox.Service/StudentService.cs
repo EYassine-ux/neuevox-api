@@ -1,9 +1,10 @@
-﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity;
 using NeueVox.Model.DTOs;
 using NeueVox.Model.DTOs.ReponseDTO;
 using NeueVox.Model.NeuevoxModel;
 using NeueVox.Model.NeuevoxModel.enums;
 using NeueVox.Repository;
+using NeueVox.Repository.MongoDbRepository;
 
 namespace NeueVox.Service;
 
@@ -14,11 +15,13 @@ public interface IStudentService : IBaseService<Student>
   Task<Student?> UpdateStudentAsync(AddStudentDto studentdto, Guid id);
   Task<IEnumerable<StudentResponseDTO>> GetAllStudentsAsync();
   Task<StudentResponseDTO?> GetStudentByIdAsync(Guid id);
+  Task<StudentPerformanceDTO?> GetStudentPerformanceByStudentIdAsync(Guid studentId);
 }
 
 public class StudentService : BaseService<Student>, IStudentService
 {
-  protected readonly IStudentRepository _studentRepository;
+  private readonly IStudentRepository _studentRepository;
+  private readonly IScheduleRepository _scheduleRepository;
   public StudentService(IStudentRepository repository) : base(repository)
   {
     _studentRepository = repository;
@@ -90,6 +93,10 @@ public class StudentService : BaseService<Student>, IStudentService
     return students;
   }
 
+
+
+
+
   public async Task<StudentResponseDTO?> GetStudentByIdAsync(Guid id)
   {
     var rawStudent = await _studentRepository.GetByIdAsync(id);
@@ -97,6 +104,18 @@ public class StudentService : BaseService<Student>, IStudentService
     var student = MapToResponseDTO(rawStudent);
 
     return student;
+  }
+
+  public async Task<StudentPerformanceDTO?> GetStudentPerformanceByStudentIdAsync(Guid studentId)
+  {
+    var schedules = await _scheduleRepository.GetScheduleForStudent(studentId);
+    double totalHours = schedules.Sum(s=> (s.EndTime - s.StartTime).TotalHours);
+    return new StudentPerformanceDTO
+    {
+      TotalWeeklyHours = totalHours,
+      AcademicProgressPercentage = 8.0,
+      ProgressDetail = "en génie logiciel"
+    };
   }
 
   private StudentResponseDTO MapToResponseDTO(Student s)
